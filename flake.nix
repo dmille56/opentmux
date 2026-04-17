@@ -55,6 +55,14 @@
             description = "OpenCode tmux integration plugin";
           };
         };
+
+        opentmux-overlay = final: prev: {
+          importOpentmux = final: prev: {
+            home.packages = with prev; [
+              self.packages.${system}.default
+            ];
+          };
+        };
       in
       {
         packages.default = opentmux;
@@ -62,6 +70,7 @@
           type = "app";
           program = "${self.packages.${system}.default}/bin/opentmux";
         };
+        overlays.opentmux = opentmux-overlay;
       }
     );
 }
